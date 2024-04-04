@@ -1,0 +1,65 @@
+﻿@model List<FinalSolution.Models.ToDo>
+
+<div class="to-do-list-container">
+    <h1>To Do List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var toDo in Model)
+            {
+                <tr>
+                    <td>@toDo.Description</td>
+                    <td>@toDo.Priority</td>
+                    <td>
+                        <form asp-action="DeleteToDoItem" method="post">
+                            <input type="hidden" name="id" value="@toDo.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="add-to-do-form">
+        <form asp-action="AddToDoItem" method="post">
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required />
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+</div>
+
+@* Questions:
+   1. When you log in, where are your credentials stored?
+   ASP.NET Core employs a database (AspNetUsers) or a persistent store to keep your email and hashed
+   and salted password information ie.the credentials.
+   When you log in, the system validates your credentials against these stored values.  
+
+   2. What happens when you delete it and refresh the page? 
+   Refreshing the page won't affect the stored credentials, but your session might expire without a valid cookie.
+   
+   3. Can you copy this credential into another browser and then access the page?
+   Yess, as long as the cookie is still valid as it contains the necessary information 
+   for the server to authenticate you as the same user.
+   
+   4. How do you clear this credential apart from logging out?
+   You can manually delete the authentication cookie from the browser via it's developer tools or settings or 
+   clearing browsing data.
+   You can also delete it via server-side implementaion like Session.Abandon() *@
